@@ -5,6 +5,9 @@ import com.fsck.k9.endtoend.framework.AccountForTest;
 import com.fsck.k9.endtoend.framework.ApplicationState;
 import com.fsck.k9.endtoend.pages.AccountsPage;
 
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Creates and removes accounts.
  *
@@ -25,7 +28,9 @@ public class A010_AccountIntegrationTest extends AbstractEndToEndTest<Accounts>{
 
         AccountsPage accountsPage = new AccountsPage();
 
-        AccountForTest accountForTest = ApplicationState.getInstance().accounts.get(0);
+        Iterator<AccountForTest> iterator = ApplicationState.getInstance().accounts.iterator();
+
+        AccountForTest accountForTest = iterator.next();
         accountsPage.assertAccountExists(accountForTest.description);
 
         accountsPage.clickLongOnAccount(accountForTest);
@@ -35,6 +40,8 @@ public class A010_AccountIntegrationTest extends AbstractEndToEndTest<Accounts>{
         accountsPage.clickOK();
 
         accountsPage.assertAccountDoesNotExist(accountForTest.description);
+
+        iterator.remove();
 
     }
 }
