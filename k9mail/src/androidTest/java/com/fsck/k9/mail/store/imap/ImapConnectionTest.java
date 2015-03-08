@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import android.net.Network;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.fsck.k9.endtoend.framework.StubMailServer;
@@ -13,6 +14,9 @@ import com.fsck.k9.mail.AuthType;
 import com.fsck.k9.mail.AuthenticationFailedException;
 import com.fsck.k9.mail.ConnectionSecurity;
 import com.fsck.k9.mail.MessagingException;
+import com.fsck.k9.mail.NetworkType;
+import com.fsck.k9.mail.ServerSettings;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -167,7 +171,7 @@ public class ImapConnectionTest  {
         }
 
         @Override
-        public boolean useCompression(int type) {
+        public boolean useCompression(NetworkType type) {
             return false;
         }
 
