@@ -27,7 +27,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertArrayEquals;
 
 
-@RunWith(AndroidJUnit4.cglass)
+@RunWith(AndroidJUnit4.class)
 public class ImapConnectionTest  {
     private static final String[] CAPABILITIES = new String[] { "IMAP4REV1", "LITERAL+", "QUOTA" };
 
