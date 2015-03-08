@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import android.net.Network;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.fsck.k9.endtoend.framework.StubMailServer;
@@ -15,7 +14,6 @@ import com.fsck.k9.mail.AuthenticationFailedException;
 import com.fsck.k9.mail.ConnectionSecurity;
 import com.fsck.k9.mail.MessagingException;
 import com.fsck.k9.mail.NetworkType;
-import com.fsck.k9.mail.ServerSettings;
 
 import org.junit.After;
 import org.junit.Before;
@@ -29,7 +27,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertArrayEquals;
 
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(AndroidJUnit4.cglass)
 public class ImapConnectionTest  {
     private static final String[] CAPABILITIES = new String[] { "IMAP4REV1", "LITERAL+", "QUOTA" };
 
