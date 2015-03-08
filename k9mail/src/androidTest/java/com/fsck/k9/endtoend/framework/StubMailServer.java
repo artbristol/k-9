@@ -7,6 +7,11 @@ import com.icegreen.greenmail.user.GreenMailUser;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
 
+import java.util.Arrays;
+import java.util.List;
+
+import javax.mail.internet.MimeMessage;
+
 /**
  * Configuration and management of a pair of stub servers for use by an account.
  */
@@ -55,6 +60,10 @@ public class StubMailServer {
 
     public void stop() {
         greenmail.stop();
+    }
+
+    public List<MimeMessage> getReceivedMessages() {
+        return Arrays.asList(greenmail.getReceivedMessages());
     }
 }
 
