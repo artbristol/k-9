@@ -3,11 +3,10 @@ package com.fsck.k9.endtoend.pages;
 import com.fsck.k9.R;
 import com.fsck.k9.endtoend.framework.AccountForTest;
 import android.support.test.espresso.NoMatchingViewException;
+import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewAssertion;
-import com.google.android.apps.common.testing.ui.espresso.NoMatchingViewException;
-import com.google.android.apps.common.testing.ui.espresso.ViewAction;
-import com.google.android.apps.common.testing.ui.espresso.ViewAssertion;
-import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
+import android.support.test.espresso.ViewInteraction;
+
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
