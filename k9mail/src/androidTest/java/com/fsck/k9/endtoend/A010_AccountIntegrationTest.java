@@ -17,7 +17,6 @@ import java.util.List;
  * Because of the way K-9 shows the start page, there must already be two accounts
  * in existence for this test to work.
  */
-@Ignore
 public class A010_AccountIntegrationTest extends AbstractEndToEndTest<Accounts>{
 
     public A010_AccountIntegrationTest() {

@@ -1,8 +1,5 @@
 package com.fsck.k9.endtoend;
 
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.IdlingResource;
-
 import com.fsck.k9.activity.Accounts;
 import com.fsck.k9.endtoend.framework.AccountForTest;
 import com.fsck.k9.endtoend.framework.ApplicationState;
@@ -43,6 +40,8 @@ public class A020_SendEmailTest extends AbstractEndToEndTest<Accounts> {
 
         composePage.send();
 
+        assertTrue(accountForTest.stubMailServer.getReceivedMessages().isEmpty());
+
         // TODO use Espresso's IdlingResource or something to check for notification.
         Awaitility.waitAtMost(Duration.ONE_MINUTE).until(new Callable<Boolean>() {
 
@@ -52,6 +51,5 @@ public class A020_SendEmailTest extends AbstractEndToEndTest<Accounts> {
             }
         });
     }
-
 
 }
