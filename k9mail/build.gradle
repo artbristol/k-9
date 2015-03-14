@@ -8,6 +8,7 @@ repositories {
     maven {
         url "https://oss.sonatype.org/content/repositories/snapshots/"
     }
+    mavenLocal()
 }
 
 dependencies {
@@ -25,7 +26,21 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
     androidTestCompile('com.icegreen:greenmail:1.4.1-SNAPSHOT') {
         exclude group: 'junit'
+        exclude group: 'com.sun.mail'
+        exclude group: 'javax.mail'
     }
+
+//    androidTestCompile 'org.apache.geronimo.javamail:geronimo-javamail_1.4_mail:1.8.4'
+//    androidTestCompile 'javax.activation:activation:1.1.1'
+    androidTestCompile 'eu.ocathain.javax.mail:javax.mail-api:1.5.3-SNAPSHOT'
+    androidTestCompile 'eu.ocathain.com.sun.mail:javax.mail:1.5.3-SNAPSHOT'
+
+
+    androidTestCompile('com.jayway.awaitility:awaitility:1.6.3') {
+        exclude group: 'junit'
+        exclude group: 'org.hamcrest'
+    }
+
     androidTestCompile 'com.madgag.spongycastle:pg:1.51.0.0'
 }
 

@@ -477,7 +477,7 @@ public class MessagingController implements Runnable {
     public void refreshListener(MessagingListener listener) {
         if (memorizingListener != null && listener != null) {
             memorizingListener.refreshOther(listener,
-                Preferences.getPreferences(mApplication.getApplicationContext()));
+                Preferences.getPreferences(context));
         }
     }
 
