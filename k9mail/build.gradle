@@ -38,11 +38,6 @@ dependencies {
     androidTestCompile 'eu.ocathain.com.sun.mail:javax.mail:1.5.3-SNAPSHOT'
     androidTestCompile 'eu.ocathain.javax.activation:activation:1.1.1-SNAPSHOT'
 
-    androidTestCompile('com.jayway.awaitility:awaitility:1.6.3') {
-        exclude group: 'junit'
-        exclude group: 'org.hamcrest'
-    }
-
     androidTestCompile 'com.madgag.spongycastle:pg:1.51.0.0'
 }
 

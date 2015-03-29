@@ -85,5 +85,9 @@ public class StubMailServer {
         greenmail.start();
 
     }
+
+    public void waitForMessage() {
+        greenmail.waitForIncomingEmail(60000L, 1);
+    }
 }
 

@@ -6,14 +6,11 @@ import com.fsck.k9.endtoend.framework.ApplicationState;
 import com.fsck.k9.endtoend.pages.AccountsPage;
 import com.fsck.k9.endtoend.pages.ComposePage;
 import com.fsck.k9.endtoend.pages.FolderPage;
-import com.jayway.awaitility.Awaitility;
-import com.jayway.awaitility.Duration;
 
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.Callable;
 
 /**
  * Tests sending an email. An account must already be set up.
@@ -41,15 +38,8 @@ public class A020_SendEmailTest extends AbstractEndToEndTest<Accounts> {
         composePage.send();
 
         assertTrue(accountForTest.stubMailServer.getReceivedMessages().isEmpty());
+        accountForTest.stubMailServer.waitForMessage();
 
-        // TODO use Espresso's IdlingResource or something to check for notification.
-        Awaitility.waitAtMost(Duration.ONE_MINUTE).until(new Callable<Boolean>() {
-
-            @Override
-            public Boolean call() throws Exception {
-                return accountForTest.stubMailServer.getReceivedMessages().size() > 0;
-            }
-        });
     }
 
 }
