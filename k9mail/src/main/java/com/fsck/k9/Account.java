@@ -27,6 +27,7 @@ import com.fsck.k9.activity.setup.AccountSetupCheckSettings.CheckDirection;
 import com.fsck.k9.helper.Utility;
 import com.fsck.k9.mail.Address;
 import com.fsck.k9.mail.MessagingException;
+import com.fsck.k9.mail.NetworkType;
 import com.fsck.k9.mail.Store;
 import com.fsck.k9.mail.Folder.FolderClass;
 import com.fsck.k9.mail.filter.Base64;
@@ -94,12 +95,6 @@ public class Account implements BaseAccount, StoreConfig {
             }
             throw new IllegalArgumentException("DeletePolicy " + initialSetting + " unknown");
         }
-    }
-
-    public enum NetworkType {
-        WIFI,
-        MOBILE,
-        OTHER
     }
 
     public static final MessageFormat DEFAULT_MESSAGE_FORMAT = MessageFormat.HTML;
@@ -225,6 +220,7 @@ public class Account implements BaseAccount, StoreConfig {
     private boolean mStripSignature;
     private boolean mSyncRemoteDeletions;
     private String mCryptoApp;
+    private long mCryptoKey;
     private boolean mMarkMessageAsReadOnView;
     private boolean mAlwaysShowCcBcc;
     private boolean mAllowRemoteSearch;
@@ -319,6 +315,7 @@ public class Account implements BaseAccount, StoreConfig {
         mStripSignature = DEFAULT_STRIP_SIGNATURE;
         mSyncRemoteDeletions = true;
         mCryptoApp = NO_OPENPGP_PROVIDER;
+        mCryptoKey = 0;
         mAllowRemoteSearch = false;
         mRemoteSearchFullText = false;
         mRemoteSearchNumResults = DEFAULT_REMOTE_SEARCH_NUM_RESULTS;
@@ -466,7 +463,8 @@ public class Account implements BaseAccount, StoreConfig {
         mIsSignatureBeforeQuotedText = prefs.getBoolean(mUuid  + ".signatureBeforeQuotedText", false);
         identities = loadIdentities(prefs);
 
-        mCryptoApp = prefs.getString(mUuid + ".cryptoApp", NO_OPENPGP_PROVIDER);
+        String cryptoApp = prefs.getString(mUuid + ".cryptoApp", NO_OPENPGP_PROVIDER);
+        setCryptoApp(cryptoApp);
         mAllowRemoteSearch = prefs.getBoolean(mUuid + ".allowRemoteSearch", false);
         mRemoteSearchFullText = prefs.getBoolean(mUuid + ".remoteSearchFullText", false);
         mRemoteSearchNumResults = prefs.getInt(mUuid + ".remoteSearchNumResults", DEFAULT_REMOTE_SEARCH_NUM_RESULTS);
@@ -728,6 +726,7 @@ public class Account implements BaseAccount, StoreConfig {
         editor.putBoolean(mUuid + ".replyAfterQuote", mReplyAfterQuote);
         editor.putBoolean(mUuid + ".stripSignature", mStripSignature);
         editor.putString(mUuid + ".cryptoApp", mCryptoApp);
+        editor.putLong(mUuid + ".cryptoKey", mCryptoKey);
         editor.putBoolean(mUuid + ".allowRemoteSearch", mAllowRemoteSearch);
         editor.putBoolean(mUuid + ".remoteSearchFullText", mRemoteSearchFullText);
         editor.putInt(mUuid + ".remoteSearchNumResults", mRemoteSearchNumResults);
@@ -1303,19 +1302,6 @@ public class Account implements BaseAccount, StoreConfig {
         return useCompression;
     }
 
-    public boolean useCompression(int type) {
-        NetworkType networkType = NetworkType.OTHER;
-        switch (type) {
-        case ConnectivityManager.TYPE_MOBILE:
-            networkType = NetworkType.MOBILE;
-            break;
-        case ConnectivityManager.TYPE_WIFI:
-            networkType = NetworkType.WIFI;
-            break;
-        }
-        return useCompression(networkType);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o instanceof Account) {
@@ -1615,7 +1601,19 @@ public class Account implements BaseAccount, StoreConfig {
     }
 
     public void setCryptoApp(String cryptoApp) {
-        mCryptoApp = cryptoApp;
+        if (cryptoApp == null || cryptoApp.equals("apg")) {
+            mCryptoApp = NO_OPENPGP_PROVIDER;
+        } else {
+            mCryptoApp = cryptoApp;
+        }
+    }
+
+    public long getCryptoKey() {
+        return mCryptoKey;
+    }
+
+    public void setCryptoKey(long keyId) {
+        mCryptoKey = keyId;
     }
 
     public boolean allowRemoteSearch() {
@@ -1659,11 +1657,14 @@ public class Account implements BaseAccount, StoreConfig {
     }
 
     public synchronized String getOpenPgpProvider() {
-        // return null if set to "APG" or "None"
-        if (getCryptoApp().equals("apg") || getCryptoApp().equals("")) {
+        if (!isOpenPgpProviderConfigured()) {
             return null;
         }
         return getCryptoApp();
+    }
+
+    public synchronized boolean isOpenPgpProviderConfigured() {
+        return !NO_OPENPGP_PROVIDER.equals(getCryptoApp());
     }
 
     public synchronized NotificationSetting getNotificationSetting() {
