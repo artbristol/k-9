@@ -147,9 +147,8 @@ public class AttachmentPresenter {
         }
 
         int loaderId = getNextFreeLoaderId();
-        // FIXME: Mark attachment as using an internal content URI
         Attachment attachment = Attachment.createAttachment(
-                attachmentViewInfo.internalUri, loaderId, attachmentViewInfo.mimeType, true);
+                attachmentViewInfo.internalUri, loaderId, attachmentViewInfo.mimeType, true, true);
         attachment = attachment.deriveWithMetadataLoaded(
                 attachmentViewInfo.mimeType, attachmentViewInfo.displayName, attachmentViewInfo.size);
 
@@ -161,7 +160,7 @@ public class AttachmentPresenter {
     }
 
     private void addInternalAttachment(Uri uri, String contentType, boolean allowMessageType) {
-        addAttachment(uri, contentType, false, true);
+        addAttachment(uri, contentType, allowMessageType, true);
     }
 
     private void addAttachment(Uri uri, String contentType, boolean allowMessageType, boolean internalAttachment) {
@@ -170,8 +169,7 @@ public class AttachmentPresenter {
         }
 
         int loaderId = getNextFreeLoaderId();
-        // FIXME: Use internalAttachment parameter
-        Attachment attachment = Attachment.createAttachment(uri, loaderId, contentType, allowMessageType);
+        Attachment attachment = Attachment.createAttachment(uri, loaderId, contentType, allowMessageType, internalAttachment);
 
         addAttachmentAndStartLoader(attachment);
     }
